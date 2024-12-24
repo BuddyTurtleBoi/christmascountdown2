@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to 8 PM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+        }
+        #countdown {
+            font-size: 2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Countdown to 8 PM</h1>
+    <div id="countdown">Calculating...</div>
+    <audio id="alarm" src="alarm.mp3"></audio>
+
+    <script>
+        const titles = [
+            "Countdown Til Presents",
+            "Almost There!",
+            "CHRISTMAS!!!!!!",
+            "Opening Christmas Presents in...",
+            "Man, I can't wait",
+            "Time Flies",
+            "Counting Down",
+            "8PM is going to be a blast!",
+            "There's only...",
+            "Christmas is about giving!",
+            "Santa, Please Stop Here",
+            "Almost Showtime",
+            "Longest Minutes of my Life!",
+            "Edge of the Night",
+            "Minutes to Magic",
+            "Anticipation starts...",
+            "Patience is Key!",
+            "Soon...",
+            "Only...",
+            "Here we go!",
+            "Christmas, just a little away!",
+            "Nearly There",
+            "Ticking Down",
+            "Moment of Truth",
+            "Are the presents fake?"
+        ];
+
+        function updateCountdown() {
+            const now = new Date();
+            const targetTime = new Date();
+            targetTime.setHours(20, 0, 0, 0); // Set time to 8:00 PM
+
+            if (now > targetTime) {
+                // If it's already past 8 PM, set countdown to the next day
+                targetTime.setDate(targetTime.getDate() + 1);
+            }
+
+            const timeDiff = targetTime - now;
+
+            const hours = Math.floor((timeDiff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((timeDiff / (1000 * 60)) % 60);
+            const seconds = Math.floor((timeDiff / 1000) % 60);
+
+            const countdownElement = document.getElementById("countdown");
+
+            if (timeDiff <= 0) {
+                countdownElement.textContent = "Time's up!";
+                document.getElementById("alarm").play();
+                clearInterval(intervalId); // Stop the interval when the countdown ends
+            } else {
+                countdownElement.textContent = `${hours}h ${minutes}m ${seconds}s`;
+            }
+        }
+
+        function randomizeTitle() {
+            const randomIndex = Math.floor(Math.random() * titles.length);
+            document.getElementById("title").textContent = titles[randomIndex];
+        }
+
+        // Update the countdown every second
+        const intervalId = setInterval(updateCountdown, 500);
+        updateCountdown(); // Initial call to set countdown immediately
+
+        // Change the title every minute
+        setInterval(randomizeTitle, 10000);
+        randomizeTitle(); // Initial call to set title immediately
+    </script>
+</body>
+</html>
